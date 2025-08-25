@@ -219,7 +219,7 @@ export default function Home() {
                 </span>
               </h1>
               <p className="text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto leading-relaxed">
-                Cut through the AI noise. Get the stories that actually matter, <span className="text-blue-400 font-semibold">analyzed and ranked by AI</span>. 🚀
+                Cut through the AI noise. Get the stories that actually matter, <span className="text-blue-400 font-semibold">analyzed and ranked by AI</span> 🚀
               </p>
             </div>
           </div>
@@ -259,7 +259,7 @@ export default function Home() {
                 </span>
               </h1>
               <p className="text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto leading-relaxed">
-                Cut through the AI noise. Get the stories that actually matter, <span className="text-blue-400 font-semibold">analyzed and ranked by AI</span>. 🚀
+                Cut through the AI noise. Get the stories that actually matter, <span className="text-blue-400 font-semibold">analyzed and ranked by AI</span> 🚀
               </p>
             </div>
           </div>
