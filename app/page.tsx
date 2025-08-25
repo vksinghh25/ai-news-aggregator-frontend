@@ -210,16 +210,16 @@ export default function Home() {
           <div className="relative max-w-6xl mx-auto px-8 py-16 text-center">
             <div className="mb-3">
               <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-2">
-                <span className="text-white/90 text-sm font-medium">🤖 AI-Powered News Analysis</span>
+                <span className="text-white/90 text-sm font-medium">🤖 AI-Powered News Analysis ✨</span>
               </div>
               <h1 className="text-5xl md:text-6xl font-bold text-white mb-8 leading-relaxed">
                 AI News
                 <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400 pb-4">
-                  Aggregator
+                  Digest
                 </span>
               </h1>
               <p className="text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto leading-relaxed">
-                Your weekly digest of the most important AI developments and their long-term implications.
+                Cut through the AI noise. Get the stories that actually matter, <span className="text-blue-400 font-semibold">analyzed and ranked by AI</span>. 🚀
               </p>
             </div>
           </div>
@@ -250,16 +250,16 @@ export default function Home() {
           <div className="relative max-w-6xl mx-auto px-8 py-16 text-center">
             <div className="mb-3">
               <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-2">
-                <span className="text-white/90 text-sm font-medium">🤖 AI-Powered News Analysis</span>
+                <span className="text-white/90 text-sm font-medium">🤖 AI-Powered News Analysis ✨</span>
               </div>
               <h1 className="text-5xl md:text-6xl font-bold text-white mb-8 leading-relaxed">
                 AI News
                 <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400 pb-4">
-                  Aggregator
+                  Digest
                 </span>
               </h1>
               <p className="text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto leading-relaxed">
-                Your weekly digest of the most important AI developments and their long-term implications.
+                Cut through the AI noise. Get the stories that actually matter, <span className="text-blue-400 font-semibold">analyzed and ranked by AI</span>. 🚀
               </p>
             </div>
           </div>
