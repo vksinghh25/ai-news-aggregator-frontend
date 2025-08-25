@@ -297,7 +297,7 @@ export default function Home() {
         <div className="relative max-w-6xl mx-auto px-8 py-8 text-center">
           <div className="mb-3">
             <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-2">
-              <span className="text-white/90 text-sm font-medium">🤖 AI News - Analyzed by AI</span>
+              <span className="text-white/90 text-sm font-medium">🤖 AI-Powered News Analysis</span>
             </div>
             <h1 className="text-5xl md:text-6xl font-bold text-white mb-8 leading-relaxed">
               AI News
