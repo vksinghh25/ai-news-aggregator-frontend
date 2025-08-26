@@ -387,8 +387,11 @@ export default function Home() {
         <div className="absolute bottom-20 right-10 w-32 h-32 bg-cyan-400/30 dark:bg-cyan-500/20 rounded-full blur-xl"></div>
       </div>
 
+      {/* Gap between header and news - matches news background */}
+      <div className="news-gap h-8"></div>
+
       {/* News Grid Section */}
-      <div className="mt-8 bg-white/40 dark:bg-gray-900/40 min-h-screen">
+      <div className="bg-white/40 dark:bg-gray-900/40 min-h-screen">
         {/* Navigation Buttons */}
         {/* Hamburger Toggle Button */}
         <button 

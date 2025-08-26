@@ -19,6 +19,15 @@ html.light body {
   background-color: #fafafa;
 }
 
+/* Gap between header and news section - match news section background */
+.news-gap {
+  background-color: rgba(255, 255, 255, 0.4); /* Same as bg-white/40 */
+}
+
+.dark .news-gap {
+  background-color: rgba(17, 24, 39, 0.4); /* Same as bg-gray-900/40 */
+}
+
 .gradient-text {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   -webkit-background-clip: text;
