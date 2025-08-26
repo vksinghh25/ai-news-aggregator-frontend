@@ -69,6 +69,7 @@ export default function Home() {
   const [currentArchive, setCurrentArchive] = useState<string | null>(null);
   const [archiveLoading, setArchiveLoading] = useState(false);
   const [availableArchives, setAvailableArchives] = useState<any[]>([]);
+  const [hideNavToggle, setHideNavToggle] = useState(false);
 
   const handleNewsClick = async (news: NewsItem) => {
     setSelectedNews(news);
@@ -202,6 +203,23 @@ export default function Home() {
     fetchAvailableArchives();
   }, []);
 
+  // Scroll detection to hide nav toggle when reaching news section
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const shouldHide = scrollY > 400; // Hide after scrolling 400px down
+      setHideNavToggle(shouldHide);
+      
+      // Close sidebar when nav toggle is hidden
+      if (shouldHide && sidebarOpen) {
+        setSidebarOpen(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [sidebarOpen]);
+
   if (loading) {
     return (
       <main className="min-h-screen">
@@ -292,7 +310,7 @@ export default function Home() {
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-gray-800 via-slate-800 to-gray-900">
+      <div className="hero-section relative overflow-hidden bg-gradient-to-br from-gray-800 via-slate-800 to-gray-900">
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="relative max-w-6xl mx-auto px-8 py-8 text-center">
           <div className="mb-3">
@@ -317,20 +335,20 @@ export default function Home() {
       </div>
 
       {/* News Grid Section */}
-      <div className="flex gap-8 mt-8">
+      <div className="mt-8">
         {/* Toggle Button */}
         <button 
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className={`fixed top-24 left-4 z-40 p-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg border border-gray-700 transition-all duration-200 ${sidebarOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
+          className={`fixed top-24 left-4 z-40 p-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg border border-gray-700 transition-all duration-200 ${sidebarOpen || hideNavToggle ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
         
-        {/* Left Sidebar Navigation */}
-        <div className={`${sidebarOpen ? 'w-72' : 'w-0'} flex-shrink-0 transition-all duration-300 overflow-hidden pl-4`}>
-          <div className="bg-gray-800 rounded-lg p-4 border border-gray-700 w-64">
+        {/* Left Sidebar Navigation - Overlay */}
+        <div className={`fixed top-20 left-4 z-30 w-72 transition-all duration-300 ${sidebarOpen && !hideNavToggle ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-full pointer-events-none'}`}>
+          <div className="bg-gray-800 rounded-lg p-4 border border-gray-700 shadow-2xl">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold text-white">News Timeline</h3>
               <button 
@@ -375,8 +393,8 @@ export default function Home() {
           </div>
         </div>
         
-        {/* News Grid */}
-        <div className="flex-1 px-4 md:px-6 lg:px-8">
+        {/* News Grid - Always Full Width */}
+        <div className="w-full max-w-6xl mx-auto px-4 md:px-6 lg:px-8">
           {archiveLoading ? (
             <div className="text-center py-12">
               <div className="inline-flex items-center px-6 py-3 rounded-full bg-gradient-to-r from-blue-600 to-blue-700 border border-blue-500">
