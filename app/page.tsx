@@ -362,9 +362,6 @@ export default function Home() {
 
   return (
     <main className="min-h-screen">
-      {/* Theme Toggle */}
-      <ThemeToggle />
-      
       {/* Hero Section */}
       <div className="hero-section relative overflow-hidden bg-gradient-to-br from-gray-100 via-gray-50 to-blue-50 dark:from-gray-800 dark:via-slate-800 dark:to-gray-900">
         <div className="absolute inset-0 bg-blue-500/5 dark:bg-black/20"></div>
@@ -392,7 +389,8 @@ export default function Home() {
 
       {/* News Grid Section */}
       <div className="mt-8">
-        {/* Toggle Button */}
+        {/* Navigation Buttons */}
+        {/* Hamburger Toggle Button */}
         <button 
           onClick={() => setSidebarOpen(!sidebarOpen)}
           className={`fixed top-24 left-4 z-40 p-2 bg-white border-2 border-gray-200 hover:bg-gray-50 text-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white rounded-lg dark:border-gray-700 shadow-lg transition-all duration-200 ${sidebarOpen || hideNavToggle ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
@@ -401,6 +399,9 @@ export default function Home() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
+        
+        {/* Theme Toggle Button */}
+        <ThemeToggle hideNavToggle={hideNavToggle} />
         
         {/* Left Sidebar Navigation - Overlay */}
         <div className={`fixed top-20 left-4 z-30 w-72 transition-all duration-300 ${sidebarOpen && !hideNavToggle ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-full pointer-events-none'}`}>

@@ -2,13 +2,17 @@
 
 import { useTheme } from '../contexts/ThemeContext';
 
-export default function ThemeToggle() {
+interface ThemeToggleProps {
+  hideNavToggle: boolean;
+}
+
+export default function ThemeToggle({ hideNavToggle }: ThemeToggleProps) {
   const { theme, toggleTheme } = useTheme();
 
   return (
     <button
       onClick={toggleTheme}
-      className="fixed top-6 right-6 z-50 p-3 bg-white/10 dark:bg-gray-800/80 backdrop-blur-sm rounded-full border border-white/20 dark:border-gray-700 hover:bg-white/20 dark:hover:bg-gray-700 transition-all duration-200 shadow-lg"
+      className={`fixed top-24 right-4 z-40 p-2 bg-white border-2 border-gray-200 hover:bg-gray-50 text-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white rounded-lg dark:border-gray-700 shadow-lg transition-all duration-200 ${hideNavToggle ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
       aria-label="Toggle theme"
     >
       {theme === 'dark' ? (
