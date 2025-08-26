@@ -363,8 +363,8 @@ export default function Home() {
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
-      <div className="hero-section relative overflow-hidden bg-gradient-to-br from-slate-50 via-gray-50 to-blue-50/30 dark:from-gray-800 dark:via-slate-800 dark:to-gray-900">
-        <div className="absolute inset-0 bg-blue-500/3 dark:bg-black/20"></div>
+      <div className="hero-section relative overflow-hidden bg-gradient-to-br from-slate-100 via-gray-50 to-blue-50/50 dark:from-gray-800 dark:via-slate-800 dark:to-gray-900">
+        <div className="absolute inset-0 bg-blue-500/8 dark:bg-black/30"></div>
         <div className="relative max-w-6xl mx-auto px-8 py-8 text-center">
           <div className="mb-3">
             <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-50/90 dark:bg-white/10 backdrop-blur-sm border border-blue-100/50 dark:border-white/20 mb-2">
@@ -388,7 +388,7 @@ export default function Home() {
       </div>
 
       {/* News Grid Section */}
-      <div className="mt-8">
+      <div className="mt-8 bg-white/40 dark:bg-gray-900/40 min-h-screen">
         {/* Navigation Buttons */}
         {/* Hamburger Toggle Button */}
         <button 
