@@ -8,6 +8,17 @@ body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
+/* Softer light theme background */
+@media (prefers-color-scheme: light) {
+  body:not(.dark) {
+    background-color: #fafafa;
+  }
+}
+
+html.light body {
+  background-color: #fafafa;
+}
+
 .gradient-text {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   -webkit-background-clip: text;

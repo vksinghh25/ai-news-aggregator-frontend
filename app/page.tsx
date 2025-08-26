@@ -363,20 +363,20 @@ export default function Home() {
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
-      <div className="hero-section relative overflow-hidden bg-gradient-to-br from-gray-100 via-gray-50 to-blue-50 dark:from-gray-800 dark:via-slate-800 dark:to-gray-900">
-        <div className="absolute inset-0 bg-blue-500/5 dark:bg-black/20"></div>
+      <div className="hero-section relative overflow-hidden bg-gradient-to-br from-slate-50 via-gray-50 to-blue-50/30 dark:from-gray-800 dark:via-slate-800 dark:to-gray-900">
+        <div className="absolute inset-0 bg-blue-500/3 dark:bg-black/20"></div>
         <div className="relative max-w-6xl mx-auto px-8 py-8 text-center">
           <div className="mb-3">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-100/80 dark:bg-white/10 backdrop-blur-sm border border-blue-200 dark:border-white/20 mb-2">
-              <span className="text-blue-900 dark:text-white/90 text-sm font-medium">🤖 AI-Powered News Analysis ✨</span>
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-50/90 dark:bg-white/10 backdrop-blur-sm border border-blue-100/50 dark:border-white/20 mb-2">
+              <span className="text-blue-800 dark:text-white/90 text-sm font-medium">🤖 AI-Powered News Analysis ✨</span>
             </div>
-            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-8 leading-relaxed">
+            <h1 className="text-5xl md:text-6xl font-bold text-slate-800 dark:text-white mb-8 leading-relaxed">
               AI News
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-blue-400 dark:to-cyan-400 pb-4">
                 Digest
               </span>
             </h1>
-            <p className="text-xl md:text-2xl text-gray-700 dark:text-gray-200 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl md:text-2xl text-slate-600 dark:text-gray-200 max-w-3xl mx-auto leading-relaxed">
               Cut through the AI noise. Get the stories that actually matter, <span className="text-blue-600 dark:text-blue-400 font-semibold">analyzed and ranked by AI</span> 🚀
             </p>
           </div>
@@ -393,7 +393,7 @@ export default function Home() {
         {/* Hamburger Toggle Button */}
         <button 
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className={`fixed top-24 left-4 z-40 p-2 bg-white border-2 border-gray-200 hover:bg-gray-50 text-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white rounded-lg dark:border-gray-700 shadow-lg transition-all duration-200 ${sidebarOpen || hideNavToggle ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
+          className={`fixed top-24 left-4 z-40 p-2 bg-slate-50 border-2 border-slate-200 hover:bg-slate-100 text-slate-700 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white rounded-lg dark:border-gray-700 shadow-lg transition-all duration-200 ${sidebarOpen || hideNavToggle ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
@@ -405,7 +405,7 @@ export default function Home() {
         
         {/* Left Sidebar Navigation - Overlay */}
         <div className={`fixed top-20 left-4 z-30 w-72 transition-all duration-300 ${sidebarOpen && !hideNavToggle ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-full pointer-events-none'}`}>
-          <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 shadow-2xl">
+          <div className="bg-slate-50/95 dark:bg-gray-800 rounded-lg p-4 border border-slate-200/60 dark:border-gray-700 shadow-2xl backdrop-blur-sm">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">News Timeline</h3>
               <button 
@@ -420,7 +420,7 @@ export default function Home() {
             <nav className="space-y-3">
               <button 
                 onClick={() => fetchArchive('latest')}
-                className="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 font-medium rounded-md transition-colors duration-200 flex items-center gap-3"
+                className="w-full text-left px-3 py-2 hover:bg-slate-100 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-200 font-medium rounded-md transition-colors duration-200 flex items-center gap-3"
               >
                 <span className={`w-3 h-3 rounded-full flex-shrink-0 ${
                   currentArchive === null ? 'bg-blue-500' : 'bg-gray-500'
@@ -432,7 +432,7 @@ export default function Home() {
                 <button 
                   key={archive.id}
                   onClick={() => fetchArchive(archive.id)}
-                  className="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 font-medium rounded-md transition-colors duration-200 flex items-center gap-3"
+                  className="w-full text-left px-3 py-2 hover:bg-slate-100 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-200 font-medium rounded-md transition-colors duration-200 flex items-center gap-3"
                 >
                   <span className={`w-3 h-3 rounded-full flex-shrink-0 ${
                     currentArchive === archive.id ? 'bg-blue-500' : 'bg-gray-500'
