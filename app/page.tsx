@@ -411,7 +411,7 @@ export default function Home() {
                     className="animate-fade-in w-full"
                     style={{ animationDelay: `${index * 100}ms` }}
                   >
-                    <NewsCard news={news} onNewsClick={handleNewsClick} />
+                    <NewsCard news={news} onNewsClick={handleNewsClick} index={index} />
                   </div>
                 ))}
               </div>

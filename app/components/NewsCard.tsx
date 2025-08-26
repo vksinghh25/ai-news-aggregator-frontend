@@ -12,9 +12,10 @@ interface NewsItem {
 interface NewsCardProps {
   news: NewsItem;
   onNewsClick: (news: NewsItem) => void;
+  index: number;
 }
 
-export default function NewsCard({ news, onNewsClick }: NewsCardProps) {
+export default function NewsCard({ news, onNewsClick, index }: NewsCardProps) {
 
   
   const tagColors = {
@@ -39,6 +40,7 @@ export default function NewsCard({ news, onNewsClick }: NewsCardProps) {
               rel="noopener noreferrer"
               className="hover:text-blue-400 transition-colors duration-200 cursor-pointer"
             >
+              <span className="text-blue-400 font-bold mr-2">#{index + 1}</span>
               {news.title}
             </a>
           </h3>
