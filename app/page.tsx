@@ -71,19 +71,26 @@ export default function Home() {
   const [archiveLoading, setArchiveLoading] = useState(false);
   const [availableArchives, setAvailableArchives] = useState<any[]>([]);
   const [hideNavToggle, setHideNavToggle] = useState(false);
+  const [analysisCache, setAnalysisCache] = useState<Record<string, any>>({});
 
   const handleNewsClick = async (news: NewsItem) => {
     setSelectedNews(news);
     setShowModal(true);
-    setAnalysis(null); // Reset previous analysis
     
-    // Fetch analysis for this specific news item
-    await fetchAnalysis(news.id);
+    // Check if analysis is already cached
+    if (analysisCache[news.id]) {
+      setAnalysis(analysisCache[news.id]);
+      setAnalysisLoading(false);
+    } else {
+      setAnalysis(null);
+      setAnalysisLoading(true); // Set loading state before fetching
+      await fetchAnalysis(news.id);
+    }
   };
 
-  const fetchAnalysis = async (newsId: string) => {
+  const fetchAnalysis = async (newsId: string, isBackground = false) => {
     try {
-      setAnalysisLoading(true);
+      if (!isBackground) setAnalysisLoading(true);
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
       const response = await fetch(`${apiUrl}/api/news/analyze/${newsId}`);
       
@@ -94,14 +101,45 @@ export default function Home() {
       const result = await response.json();
       
       if (result.success) {
-        setAnalysis(result.analysis);
+        // Cache the analysis
+        setAnalysisCache(prev => ({
+          ...prev,
+          [newsId]: result.analysis
+        }));
+        if (!isBackground) {
+          setAnalysis(result.analysis);
+        }
       } else {
-        console.error('Failed to fetch analysis:', result.message);
+        if (!isBackground) {
+          console.error('Failed to fetch analysis:', result.message);
+        }
       }
     } catch (err) {
-      console.error('Error fetching analysis:', err);
+      if (!isBackground) {
+        console.error('Error fetching analysis:', err);
+      }
     } finally {
-      setAnalysisLoading(false);
+      if (!isBackground) setAnalysisLoading(false);
+    }
+  };
+
+  // Background pre-fetching of all analyses
+  const preFetchAnalyses = async (newsItems: NewsItem[]) => {
+    // Stagger requests to avoid overwhelming the server
+    for (let i = 0; i < newsItems.length; i++) {
+      const newsId = newsItems[i].id;
+      
+      try {
+        // Add small delay between requests (500ms)
+        await new Promise(resolve => setTimeout(resolve, i * 500));
+        
+        // Use existing fetchAnalysis with background flag
+        await fetchAnalysis(newsId, true);
+        
+      } catch (err) {
+        // Silently fail for background requests
+        console.debug(`Background analysis fetch failed for ${newsId}:`, err);
+      }
     }
   };
 
@@ -147,6 +185,10 @@ export default function Home() {
           setNewsData(result.data);
           setLastUpdated(result.lastUpdated || '');
           setCurrentArchive(null);
+          
+          // Clear and rebuild cache for latest news
+          setAnalysisCache({});
+          preFetchAnalyses(result.data);
         } else {
           throw new Error(result.message || 'Failed to fetch news');
         }
@@ -160,6 +202,10 @@ export default function Home() {
           setNewsData(result.data.news);
           setLastUpdated(result.data.timestamp);
           setCurrentArchive(archiveId);
+          
+          // Clear and rebuild cache for archived news
+          setAnalysisCache({});
+          preFetchAnalyses(result.data.news);
         } else {
           throw new Error(result.message || 'Failed to fetch archive');
         }
@@ -189,6 +235,12 @@ export default function Home() {
         if (result.success) {
           setNewsData(result.data);
           setLastUpdated(result.lastUpdated || '');
+          
+          // Clear analysis cache when news updates
+          setAnalysisCache({});
+          
+          // Start background pre-fetching of analyses
+          preFetchAnalyses(result.data);
         } else {
           throw new Error(result.message || 'Failed to fetch news');
         }
