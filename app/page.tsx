@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import NewsCard from './components/NewsCard';
+import ThemeToggle from './components/ThemeToggle';
 
 interface NewsItem {
   id: string;
@@ -309,29 +310,32 @@ export default function Home() {
 
   return (
     <main className="min-h-screen">
+      {/* Theme Toggle */}
+      <ThemeToggle />
+      
       {/* Hero Section */}
-      <div className="hero-section relative overflow-hidden bg-gradient-to-br from-gray-800 via-slate-800 to-gray-900">
-        <div className="absolute inset-0 bg-black/20"></div>
+      <div className="hero-section relative overflow-hidden bg-gradient-to-br from-gray-100 via-gray-50 to-blue-50 dark:from-gray-800 dark:via-slate-800 dark:to-gray-900">
+        <div className="absolute inset-0 bg-blue-500/5 dark:bg-black/20"></div>
         <div className="relative max-w-6xl mx-auto px-8 py-8 text-center">
           <div className="mb-3">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-2">
-              <span className="text-white/90 text-sm font-medium">🤖 AI-Powered News Analysis ✨</span>
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-100/80 dark:bg-white/10 backdrop-blur-sm border border-blue-200 dark:border-white/20 mb-2">
+              <span className="text-blue-900 dark:text-white/90 text-sm font-medium">🤖 AI-Powered News Analysis ✨</span>
             </div>
-            <h1 className="text-5xl md:text-6xl font-bold text-white mb-8 leading-relaxed">
+            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-8 leading-relaxed">
               AI News
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400 pb-4">
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-blue-400 dark:to-cyan-400 pb-4">
                 Digest
               </span>
             </h1>
-            <p className="text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto leading-relaxed">
-              Cut through the AI noise. Get the stories that actually matter, <span className="text-blue-400 font-semibold">analyzed and ranked by AI</span> 🚀
+            <p className="text-xl md:text-2xl text-gray-700 dark:text-gray-200 max-w-3xl mx-auto leading-relaxed">
+              Cut through the AI noise. Get the stories that actually matter, <span className="text-blue-600 dark:text-blue-400 font-semibold">analyzed and ranked by AI</span> 🚀
             </p>
           </div>
         </div>
         
         {/* Decorative elements */}
-        <div className="absolute top-20 left-10 w-20 h-20 bg-blue-500/20 rounded-full blur-xl"></div>
-        <div className="absolute bottom-20 right-10 w-32 h-32 bg-cyan-500/20 rounded-full blur-xl"></div>
+        <div className="absolute top-20 left-10 w-20 h-20 bg-blue-400/30 dark:bg-blue-500/20 rounded-full blur-xl"></div>
+        <div className="absolute bottom-20 right-10 w-32 h-32 bg-cyan-400/30 dark:bg-cyan-500/20 rounded-full blur-xl"></div>
       </div>
 
       {/* News Grid Section */}
@@ -339,7 +343,7 @@ export default function Home() {
         {/* Toggle Button */}
         <button 
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className={`fixed top-24 left-4 z-40 p-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg border border-gray-700 transition-all duration-200 ${sidebarOpen || hideNavToggle ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
+          className={`fixed top-24 left-4 z-40 p-2 bg-white border-2 border-gray-200 hover:bg-gray-50 text-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white rounded-lg dark:border-gray-700 shadow-lg transition-all duration-200 ${sidebarOpen || hideNavToggle ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
@@ -348,12 +352,12 @@ export default function Home() {
         
         {/* Left Sidebar Navigation - Overlay */}
         <div className={`fixed top-20 left-4 z-30 w-72 transition-all duration-300 ${sidebarOpen && !hideNavToggle ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-full pointer-events-none'}`}>
-          <div className="bg-gray-800 rounded-lg p-4 border border-gray-700 shadow-2xl">
+          <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 shadow-2xl">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold text-white">News Timeline</h3>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">News Timeline</h3>
               <button 
                 onClick={() => setSidebarOpen(false)}
-                className="text-gray-400 hover:text-white transition-colors duration-200"
+                className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors duration-200"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -363,7 +367,7 @@ export default function Home() {
             <nav className="space-y-3">
               <button 
                 onClick={() => fetchArchive('latest')}
-                className="w-full text-left px-3 py-2 hover:bg-gray-700 text-gray-200 font-medium rounded-md transition-colors duration-200 flex items-center gap-3"
+                className="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 font-medium rounded-md transition-colors duration-200 flex items-center gap-3"
               >
                 <span className={`w-3 h-3 rounded-full flex-shrink-0 ${
                   currentArchive === null ? 'bg-blue-500' : 'bg-gray-500'
@@ -375,7 +379,7 @@ export default function Home() {
                 <button 
                   key={archive.id}
                   onClick={() => fetchArchive(archive.id)}
-                  className="w-full text-left px-3 py-2 hover:bg-gray-700 text-gray-200 font-medium rounded-md transition-colors duration-200 flex items-center gap-3"
+                  className="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 font-medium rounded-md transition-colors duration-200 flex items-center gap-3"
                 >
                   <span className={`w-3 h-3 rounded-full flex-shrink-0 ${
                     currentArchive === archive.id ? 'bg-blue-500' : 'bg-gray-500'
@@ -385,7 +389,7 @@ export default function Home() {
               ))}
               
               {availableArchives.length === 0 && (
-                <div className="text-gray-400 text-sm px-3 py-2">
+                <div className="text-gray-500 dark:text-gray-400 text-sm px-3 py-2">
                   No archives available yet
                 </div>
               )}
@@ -418,7 +422,7 @@ export default function Home() {
               
               {/* Update Status - Below the grid, left aligned */}
               <div className="mt-6 text-left">
-                <div className="flex items-center gap-2 text-sm text-gray-400">
+                <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
                   <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
                   <span>Last updated {lastUpdated ? formatTimeAgo(lastUpdated) : 'recently'}</span>
                 </div>
@@ -433,22 +437,22 @@ export default function Home() {
          <div className="fixed inset-0 z-50">
            {/* Backdrop with blur effect */}
            <div 
-             className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+             className="absolute inset-0 bg-black/50 dark:bg-black/50 backdrop-blur-sm"
              onClick={closeModal}
            ></div>
            
            {/* Modal card */}
            <div className="relative flex items-center justify-center min-h-screen p-4">
-             <div className="bg-gray-800 rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-gray-700">
+             <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-gray-200 dark:border-gray-700">
                {/* Modal header */}
-               <div className="bg-gradient-to-r from-gray-700 to-gray-800 p-6 rounded-t-2xl border-b border-gray-700">
+               <div className="bg-gray-300 dark:bg-gray-700 p-6 rounded-t-2xl border-b border-gray-400 dark:border-gray-600">
                  <div className="flex justify-between items-start">
-                   <h2 className="text-3xl font-bold text-white leading-tight pr-4">
+                   <h2 className="text-3xl font-bold text-gray-900 dark:text-white leading-tight pr-4">
                      {selectedNews.title}
                    </h2>
                    <button 
                      onClick={closeModal}
-                     className="text-gray-400 hover:text-white transition-colors p-2 hover:bg-gray-700 rounded-lg"
+                     className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg"
                    >
                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -459,43 +463,43 @@ export default function Home() {
                
                {/* Modal content */}
                <div className="p-6">
-                 <p className="text-base text-gray-300 leading-relaxed mb-6">
+                 <p className="text-base text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
                    {selectedNews.detailedSnippet}
                  </p>
                  
                  <div className="flex items-center justify-between mb-6">
-                   <div className="flex items-center space-x-4 text-gray-400">
-                     <span className="text-sm">📅 {new Date(selectedNews.date).toLocaleDateString()}</span>
+                   <div className="flex items-center space-x-4 text-gray-600 dark:text-gray-400">
+                     <span className="text-sm">🗓️ {new Date(selectedNews.date).toLocaleDateString()}</span>
                      <span className="text-sm">📰 {selectedNews.source}</span>
                    </div>
                  </div>
                  
                  {/* Placeholder for future content */}
-                 <div className="bg-gray-700/50 rounded-xl p-4 border border-gray-600">
-                   <h3 className="text-lg font-semibold text-white mb-3">Why This Matters</h3>
+                 <div className="bg-gray-200 dark:bg-gray-700/50 rounded-xl p-4 border border-gray-300 dark:border-gray-600">
+                   <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Why This Matters</h3>
                    {analysisLoading ? (
-                     <div className="text-gray-300 text-center py-4">
+                     <div className="text-gray-700 dark:text-gray-300 text-center py-4">
                        <div className="text-4xl mb-2">⚙️</div>
                        <p className="text-base">Loading AI analysis...</p>
-                       <p className="text-sm text-gray-400 mt-1">We're analyzing the long-term implications and importance of this news</p>
+                       <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">We're analyzing the long-term implications and importance of this news</p>
                      </div>
                                        ) : analysis ? (
-                      <div className="text-gray-300 space-y-4">
+                      <div className="text-gray-700 dark:text-gray-300 space-y-4">
                         {/* Importance Score */}
                         <div className="text-left">
-                          <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-900/50 text-blue-300 border border-blue-700 mb-2">
+                          <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300 border border-blue-300 dark:border-blue-700 mb-2">
                             <span className="text-sm font-semibold">Importance: {analysis.importance?.score}/10</span>
                           </div>
-                          <p className="text-sm text-gray-400">{analysis.importance?.reasoning}</p>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">{analysis.importance?.reasoning}</p>
                         </div>
                         
                         {/* Key Implications */}
                         <div>
-                          <h4 className="text-sm font-semibold text-white mb-2">Key Implications:</h4>
-                          <ul className="text-sm text-gray-300 space-y-1">
+                          <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">Key Implications:</h4>
+                          <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-1">
                             {analysis.keyImplications?.map((implication: string, index: number) => (
                               <li key={index} className="flex items-start">
-                                <span className="text-blue-400 mr-2">•</span>
+                                <span className="text-blue-600 dark:text-blue-400 mr-2">•</span>
                                 {implication}
                               </li>
                             ))}
@@ -503,49 +507,49 @@ export default function Home() {
                         </div>
                         
                         {/* Divider */}
-                        <hr className="border-gray-600" />
+                        <hr className="border-gray-300 dark:border-gray-600" />
                         
                         {/* Industry Impact */}
                         <div>
-                          <h4 className="text-sm font-semibold text-white mb-2">Industry Impact:</h4>
-                          <p className="text-sm text-gray-300">{analysis.industryImpact}</p>
+                          <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">Industry Impact:</h4>
+                          <p className="text-sm text-gray-700 dark:text-gray-300">{analysis.industryImpact}</p>
                         </div>
                         
                         {/* Timeline */}
                         <div>
-                          <h4 className="text-sm font-semibold text-white mb-2">Timeline:</h4>
-                          <p className="text-sm text-gray-300">{analysis.timeline}</p>
+                          <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">Timeline:</h4>
+                          <p className="text-sm text-gray-700 dark:text-gray-300">{analysis.timeline}</p>
                         </div>
                         
                         {/* Divider */}
-                        <hr className="border-gray-600" />
+                        <hr className="border-gray-300 dark:border-gray-600" />
                         
                         {/* Risks & Opportunities */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div>
-                            <h4 className="text-sm font-semibold text-red-400 mb-2">Risks:</h4>
-                            <p className="text-sm text-gray-300">{analysis.risks}</p>
+                            <h4 className="text-sm font-semibold text-red-600 dark:text-red-400 mb-2">Risks:</h4>
+                            <p className="text-sm text-gray-700 dark:text-gray-300">{analysis.risks}</p>
                           </div>
                           <div>
-                            <h4 className="text-sm font-semibold text-green-400 mb-2">Opportunities:</h4>
-                            <p className="text-sm text-gray-300">{analysis.opportunities}</p>
+                            <h4 className="text-sm font-semibold text-green-600 dark:text-green-400 mb-2">Opportunities:</h4>
+                            <p className="text-sm text-gray-700 dark:text-gray-300">{analysis.opportunities}</p>
                           </div>
                         </div>
                       </div>
                     ) : (
-                     <div className="text-gray-300 text-center py-4">
+                     <div className="text-gray-700 dark:text-gray-300 text-center py-4">
                        <div className="text-4xl mb-2">🤖</div>
                        <p className="text-base">AI analysis coming soon...</p>
-                       <p className="text-sm text-gray-400 mt-1">We'll analyze the long-term implications and importance of this news</p>
+                       <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">We'll analyze the long-term implications and importance of this news</p>
                      </div>
                    )}
                  </div>
                  
                  {/* Action buttons */}
-                 <div className="flex items-center justify-between mt-8 pt-6 border-t border-gray-700">
+                 <div className="flex items-center justify-between mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
                    <button 
                      onClick={closeModal}
-                     className="px-6 py-3 text-gray-300 hover:text-white font-medium transition-colors hover:bg-gray-700 rounded-lg"
+                     className="px-6 py-3 text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"
                    >
                      Close
                    </button>
