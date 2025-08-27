@@ -547,7 +547,7 @@ export default function Home() {
               </div>
               
               {/* Update Status - Below the grid, left aligned */}
-              <div className="mt-6 text-left">
+              <div className="mt-6 mb-12 text-left">
                 <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
                   <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
                   <span>Last updated {lastUpdated ? formatTimeAgo(lastUpdated) : 'recently'}</span>
