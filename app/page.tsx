@@ -534,7 +534,7 @@ export default function Home() {
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mb-12">
                 {newsData.map((news, index) => (
                   <div 
                     key={news.id} 
@@ -544,14 +544,6 @@ export default function Home() {
                     <NewsCard news={news} onNewsClick={handleNewsClick} index={index} />
                   </div>
                 ))}
-              </div>
-              
-              {/* Update Status - Below the grid, left aligned */}
-              <div className="mt-6 mb-12 text-left">
-                <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                  <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-                  <span>Last updated {lastUpdated ? formatTimeAgo(lastUpdated) : 'recently'}</span>
-                </div>
               </div>
             </>
           )}
