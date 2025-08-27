@@ -104,12 +104,14 @@ export default function Home() {
       const result = await response.json();
       
       if (result.success) {
-        // Cache the analysis
-        setAnalysisCache(prev => ({
-          ...prev,
-          [newsId]: result.analysis
-        }));
-        if (!isBackground) {
+        // Only background pre-fetch can update cache
+        if (isBackground) {
+          setAnalysisCache(prev => ({
+            ...prev,
+            [newsId]: result.analysis
+          }));
+        } else {
+          // User-triggered fetch: just display, don't cache
           setAnalysis(result.analysis);
         }
       } else {
