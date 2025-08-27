@@ -95,6 +95,9 @@ export default function Home() {
       const response = await fetch(`${apiUrl}/api/news/analyze/${newsId}`);
       
       if (!response.ok) {
+        if (response.status === 429) {
+          throw new Error('RATE_LIMIT_EXCEEDED');
+        }
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       
@@ -178,7 +181,12 @@ export default function Home() {
       if (archiveId === 'latest') {
         // Fetch current news
         const response = await fetch(`${apiUrl}/api/news`);
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        if (!response.ok) {
+          if (response.status === 429) {
+            throw new Error('RATE_LIMIT_EXCEEDED');
+          }
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
         
         const result: ApiResponse = await response.json();
         if (result.success) {
@@ -195,7 +203,12 @@ export default function Home() {
       } else {
         // Fetch specific archive
         const response = await fetch(`${apiUrl}/api/archive/${archiveId}`);
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        if (!response.ok) {
+          if (response.status === 429) {
+            throw new Error('RATE_LIMIT_EXCEEDED');
+          }
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
         
         const result = await response.json();
         if (result.success) {
@@ -212,7 +225,11 @@ export default function Home() {
       }
     } catch (err) {
       console.error('Error fetching archive:', err);
-      setError(err instanceof Error ? err.message : 'Failed to fetch archive');
+      if (err instanceof Error && (err.message === 'RATE_LIMIT_EXCEEDED' || err.message === 'Failed to fetch')) {
+        setError('RATE_LIMIT_EXCEEDED');
+      } else {
+        setError(err instanceof Error ? err.message : 'Failed to fetch archive');
+      }
     } finally {
       setArchiveLoading(false);
       setSidebarOpen(false); // Auto-close sidebar after selection (especially nice on mobile)
@@ -227,6 +244,9 @@ export default function Home() {
         const response = await fetch(`${apiUrl}/api/news`);
         
         if (!response.ok) {
+          if (response.status === 429) {
+            throw new Error('RATE_LIMIT_EXCEEDED');
+          }
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         
@@ -246,7 +266,11 @@ export default function Home() {
         }
       } catch (err) {
         console.error('Error fetching news:', err);
-        setError(err instanceof Error ? err.message : 'Failed to fetch news');
+        if (err instanceof Error && (err.message === 'RATE_LIMIT_EXCEEDED' || err.message === 'Failed to fetch')) {
+          setError('RATE_LIMIT_EXCEEDED');
+        } else {
+          setError(err instanceof Error ? err.message : 'Failed to fetch news');
+        }
       } finally {
         setLoading(false);
       }
@@ -316,43 +340,87 @@ export default function Home() {
   if (error) {
     return (
       <main className="min-h-screen">
-        <div className="relative overflow-hidden bg-gradient-to-br from-gray-800 via-slate-800 to-gray-900">
-          <div className="absolute inset-0 bg-black/20"></div>
-          <div className="relative max-w-6xl mx-auto px-8 py-16 text-center">
+        {/* Hero Section */}
+        <div className="hero-section relative overflow-hidden bg-gradient-to-br from-slate-100 via-gray-50 to-blue-50/50 dark:from-gray-800 dark:via-slate-800 dark:to-gray-900">
+          <div className="absolute inset-0 bg-blue-500/8 dark:bg-black/30"></div>
+          <div className="relative max-w-6xl mx-auto px-8 py-8 text-center">
             <div className="mb-3">
-              <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-2">
-                <span className="text-white/90 text-sm font-medium">🤖 AI-Powered News Analysis ✨</span>
+              <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-50/90 dark:bg-white/10 backdrop-blur-sm border border-blue-100/50 dark:border-white/20 mb-2">
+                <span className="text-blue-800 dark:text-white/90 text-sm font-medium">🤖 AI-Powered News Analysis ✨</span>
               </div>
-              <h1 className="text-5xl md:text-6xl font-bold text-white mb-8 leading-relaxed">
+              <h1 className="text-5xl md:text-6xl font-bold text-slate-800 dark:text-white mb-8 leading-relaxed">
                 AI News
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400 pb-4">
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-blue-400 dark:to-cyan-400 pb-4">
                   Digest
                 </span>
               </h1>
-              <p className="text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto leading-relaxed">
-                Cut through the AI noise. Get the stories that actually matter, <span className="text-blue-400 font-semibold">analyzed and ranked by AI</span> 🚀
+              <p className="text-xl md:text-2xl text-slate-600 dark:text-gray-200 max-w-3xl mx-auto leading-relaxed">
+                Cut through the AI noise. Get the stories that actually matter, <span className="text-blue-600 dark:text-blue-400 font-semibold">analyzed and ranked by AI</span> 🚀
               </p>
             </div>
           </div>
           
           {/* Decorative elements */}
-          <div className="absolute top-20 left-10 w-20 h-20 bg-blue-500/20 rounded-full blur-xl"></div>
-          <div className="absolute bottom-20 right-10 w-32 h-32 bg-cyan-500/20 rounded-full blur-xl"></div>
+          <div className="absolute top-20 left-10 w-20 h-20 bg-blue-400/30 dark:bg-blue-500/20 rounded-full blur-xl"></div>
+          <div className="absolute bottom-20 right-10 w-32 h-32 bg-cyan-400/30 dark:bg-cyan-500/20 rounded-full blur-xl"></div>
         </div>
 
-        {/* Error State */}
-        <div className="max-w-6xl mx-auto px-8 py-12">
-          <div className="text-center">
-            <div className="inline-flex items-center px-6 py-3 rounded-full bg-gradient-to-r from-red-600 to-red-700 border border-red-500">
-              <span className="text-white font-medium">⚠️ Error: {error}</span>
-            </div>
-            <div className="mt-4">
-              <button 
-                onClick={() => window.location.reload()} 
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-              >
-                Try Again
-              </button>
+        {/* Gap between header and content - matches news background */}
+        <div className="news-gap h-8"></div>
+
+        {/* Content Section with same background as news */}
+        <div className="bg-white/40 dark:bg-gray-900/40 min-h-screen">
+          <div className="w-full max-w-6xl mx-auto px-4 md:px-6 lg:px-8 py-12">
+            <div className="flex justify-center">
+              <div className="w-full max-w-md">
+                {error === 'RATE_LIMIT_EXCEEDED' ? (
+                  /* Rate Limit Card - matches NewsCard design */
+                  <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-300 dark:border-gray-700 overflow-hidden">
+                    {/* Header with solid background - matches NewsCard */}
+                    <div className="bg-orange-300 dark:bg-orange-700 p-6 border-b border-orange-400 dark:border-orange-600">
+                      <div className="text-center">
+                        <div className="text-4xl mb-3">⏰</div>
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-white leading-tight">
+                          Sorry, you've hit your rate limit!
+                        </h3>
+                      </div>
+                    </div>
+                    
+                    {/* Content */}
+                    <div className="p-6 text-center">
+                      <p className="text-gray-700 dark:text-gray-300 text-base leading-relaxed">
+                        Please come back in a few minutes
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  /* Generic Error Card */
+                  <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-300 dark:border-gray-700 overflow-hidden">
+                    {/* Header with solid background - matches NewsCard */}
+                    <div className="bg-red-300 dark:bg-red-700 p-6 border-b border-red-400 dark:border-red-600">
+                      <div className="text-center">
+                        <div className="text-4xl mb-3">⚠️</div>
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-white leading-tight">
+                          Something went wrong
+                        </h3>
+                      </div>
+                    </div>
+                    
+                    {/* Content */}
+                    <div className="p-6 text-center">
+                      <p className="text-gray-700 dark:text-gray-300 text-base leading-relaxed mb-6">
+                        {error}
+                      </p>
+                      <button 
+                        onClick={() => window.location.reload()} 
+                        className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-medium rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-lg hover:shadow-xl"
+                      >
+                        Try Again
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
