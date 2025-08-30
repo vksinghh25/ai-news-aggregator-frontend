@@ -588,7 +588,7 @@ export default function Home() {
                  
                  <div className="flex items-center justify-between mb-6">
                    <div className="flex items-center space-x-4 text-gray-600 dark:text-gray-400">
-                     <span className="text-sm">🗓️ {new Date(selectedNews.date).toLocaleDateString()}</span>
+                     <span className="text-sm">🗓️ {selectedNews.date}</span>
                      <span className="text-sm">📰 {selectedNews.source}</span>
                    </div>
                  </div>
