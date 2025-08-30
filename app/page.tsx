@@ -606,8 +606,24 @@ export default function Home() {
                       <div className="text-gray-700 dark:text-gray-300 space-y-4">
                         {/* Importance Score */}
                         <div className="text-left">
-                          <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300 border border-blue-300 dark:border-blue-700 mb-2">
-                            <span className="text-sm font-semibold">Importance: {analysis.importance?.score}/10</span>
+                          <div className="flex items-center gap-3 mb-3">
+                            <span className="text-sm font-semibold text-gray-900 dark:text-white">Importance:</span>
+                            <div className="flex-1 max-w-48 bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden">
+                              <div 
+                                className={`h-full rounded-full transition-all duration-700 ${
+                                  analysis.importance?.score >= 8 ? 'bg-gradient-to-r from-purple-500 to-purple-600' : // High importance (purple)
+                                  analysis.importance?.score >= 6 ? 'bg-gradient-to-r from-yellow-500 to-yellow-600' : // Medium importance (yellow)
+                                  analysis.importance?.score >= 4 ? 'bg-gradient-to-r from-blue-500 to-blue-600' : // Medium-low importance (blue)
+                                  'bg-gradient-to-r from-green-500 to-green-600' // Lower importance (green)
+                                }`}
+                                style={{ 
+                                  width: `${(analysis.importance?.score || 0) * 10}%`
+                                }}
+                              ></div>
+                            </div>
+                            <span className="text-sm font-semibold text-gray-600 dark:text-gray-400">
+                              {analysis.importance?.score}/10
+                            </span>
                           </div>
                           <p className="text-sm text-gray-600 dark:text-gray-400">{analysis.importance?.reasoning}</p>
                         </div>
