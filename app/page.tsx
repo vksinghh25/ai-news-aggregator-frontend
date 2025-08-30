@@ -72,6 +72,15 @@ export default function Home() {
   const [availableArchives, setAvailableArchives] = useState<any[]>([]);
   const [hideNavToggle, setHideNavToggle] = useState(false);
   const [analysisCache, setAnalysisCache] = useState<Record<string, any>>({});
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+
+  const handleTagClick = (tag: string) => {
+    setSelectedTags(prev => 
+      prev.includes(tag) 
+        ? prev.filter(t => t !== tag) // Remove if already selected
+        : [...prev, tag] // Add if not selected
+    );
+  };
 
   const handleNewsClick = async (news: NewsItem) => {
     setSelectedNews(news);
@@ -535,16 +544,53 @@ export default function Home() {
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mb-12">
-                {newsData.map((news, index) => (
-                  <div 
-                    key={news.id} 
-                    className="animate-fade-in w-full"
-                    style={{ animationDelay: `${index * 100}ms` }}
-                  >
-                    <NewsCard news={news} onNewsClick={handleNewsClick} index={index} />
+              {/* Tags Filter Section */}
+              <div className="max-w-6xl mx-auto mb-8 px-4">
+                <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide">
+                  <span className="text-sm font-semibold text-gray-600 dark:text-gray-400 whitespace-nowrap flex-shrink-0">
+                    Filter by:
+                  </span>
+                  <div className="flex items-center gap-2 flex-nowrap">
+                    {/* Extract all unique tags from current news data */}
+                    {Array.from(new Set(newsData.flatMap(news => news.tags || []))).map((tag) => {
+                      const isSelected = selectedTags.includes(tag);
+                      return (
+                        <span
+                          key={tag}
+                          onClick={() => handleTagClick(tag)}
+                          className={`px-2 py-0.5 text-xs font-medium rounded-full border cursor-pointer transition-colors duration-200 whitespace-nowrap flex-shrink-0 ${
+                            isSelected 
+                              ? 'bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300 border-blue-300 dark:border-blue-700' 
+                              : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-blue-100 dark:hover:bg-blue-900/50 hover:text-blue-800 dark:hover:text-blue-300 hover:border-blue-300 dark:hover:border-blue-700'
+                          }`}
+                        >
+                          {tag}
+                        </span>
+                      );
+                    })}
                   </div>
-                ))}
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mb-12">
+                {newsData
+                  .filter(news => 
+                    selectedTags.length === 0 || // Show all if no tags selected
+                    selectedTags.some(tag => news.tags?.includes(tag)) // Show if news has any selected tag
+                  )
+                  .map((news, filteredIndex) => {
+                    // Find original index to maintain numbering
+                    const originalIndex = newsData.findIndex(n => n.id === news.id);
+                    return (
+                      <div 
+                        key={news.id} 
+                        className="animate-fade-in w-full"
+                        style={{ animationDelay: `${filteredIndex * 100}ms` }}
+                      >
+                        <NewsCard news={news} onNewsClick={handleNewsClick} index={originalIndex} />
+                      </div>
+                    );
+                  })}
               </div>
             </>
           )}
