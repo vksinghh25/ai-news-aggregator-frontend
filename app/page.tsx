@@ -86,9 +86,12 @@ export default function Home() {
     setSelectedNews(news);
     setShowModal(true);
     
+    // Create unique cache key for archives vs current news
+    const cacheKey = currentArchive ? `${currentArchive}_${news.id}` : news.id;
+    
     // Check if analysis is already cached
-    if (analysisCache[news.id]) {
-      setAnalysis(analysisCache[news.id]);
+    if (analysisCache[cacheKey]) {
+      setAnalysis(analysisCache[cacheKey]);
       setAnalysisLoading(false);
     } else {
       setAnalysis(null);
@@ -115,9 +118,10 @@ export default function Home() {
       if (result.success) {
         // Only background pre-fetch can update cache
         if (isBackground) {
+          const cacheKey = currentArchive ? `${currentArchive}_${newsId}` : newsId;
           setAnalysisCache(prev => ({
             ...prev,
-            [newsId]: result.analysis
+            [cacheKey]: result.analysis
           }));
         } else {
           // User-triggered fetch: just display, don't cache
@@ -227,9 +231,14 @@ export default function Home() {
           setLastUpdated(result.data.timestamp);
           setCurrentArchive(archiveId);
           
-          // Clear and rebuild cache for archived news
-          setAnalysisCache({});
-          preFetchAnalyses(result.data.news);
+          // Use archived analysis data with unique cache keys
+          const archiveAnalysisCache: Record<string, any> = {};
+          const archiveAnalysis = result.data.analysis || {};
+          Object.keys(archiveAnalysis).forEach(newsId => {
+            const cacheKey = `${archiveId}_${newsId}`;
+            archiveAnalysisCache[cacheKey] = archiveAnalysis[newsId];
+          });
+          setAnalysisCache(archiveAnalysisCache);
         } else {
           throw new Error(result.message || 'Failed to fetch archive');
         }
