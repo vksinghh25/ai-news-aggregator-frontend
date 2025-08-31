@@ -30,7 +30,7 @@ export default function NewsCard({ news, onNewsClick, index }: NewsCardProps) {
   };
 
   return (
-    <div className="group bg-gray-50 dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-300 dark:border-gray-700 card-hover h-[380px] w-full flex flex-col">
+    <div className="group bg-gray-50 dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 overflow-hidden border border-gray-300 dark:border-gray-700 card-hover h-[380px] w-full flex flex-col">
       {/* Header with solid background */}
               <div className="bg-gray-300 dark:bg-gray-700 p-6 border-b border-gray-400 dark:border-gray-600 flex-shrink-0">
           <h3 className="text-xl font-bold text-gray-900 dark:text-white leading-tight group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200 line-clamp-2 mb-3">
