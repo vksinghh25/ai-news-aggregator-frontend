@@ -143,7 +143,25 @@ export default function Home() {
 
   // Background pre-fetching of all analyses
   const preFetchAnalyses = async (newsItems: NewsItem[]) => {
-    // Stagger requests to avoid overwhelming the server
+    // Get current cache state to check what's already cached
+    setAnalysisCache(currentCache => {
+      // Identify items that need fetching
+      const itemsToFetch = newsItems.filter(item => {
+        const cacheKey = currentArchive ? `${currentArchive}_${item.id}` : item.id;
+        return !currentCache[cacheKey];
+      });
+      
+      // Start background fetching for missing items
+      if (itemsToFetch.length > 0) {
+        fetchMissingAnalyses(itemsToFetch);
+      }
+      
+      return currentCache; // Don't change cache, just check it
+    });
+  };
+
+  // Helper function to fetch missing analyses
+  const fetchMissingAnalyses = async (newsItems: NewsItem[]) => {
     for (let i = 0; i < newsItems.length; i++) {
       const newsId = newsItems[i].id;
       
@@ -209,8 +227,7 @@ export default function Home() {
           setLastUpdated(result.lastUpdated || '');
           setCurrentArchive(null);
           
-          // Clear and rebuild cache for latest news
-          setAnalysisCache({});
+          // Keep existing cache and pre-fetch any missing current news analysis
           preFetchAnalyses(result.data);
         } else {
           throw new Error(result.message || 'Failed to fetch news');
@@ -231,14 +248,16 @@ export default function Home() {
           setLastUpdated(result.data.timestamp);
           setCurrentArchive(archiveId);
           
-          // Use archived analysis data with unique cache keys
-          const archiveAnalysisCache: Record<string, any> = {};
+          // Merge archived analysis data with existing cache using unique keys
           const archiveAnalysis = result.data.analysis || {};
-          Object.keys(archiveAnalysis).forEach(newsId => {
-            const cacheKey = `${archiveId}_${newsId}`;
-            archiveAnalysisCache[cacheKey] = archiveAnalysis[newsId];
+          setAnalysisCache(prev => {
+            const updatedCache = { ...prev };
+            Object.keys(archiveAnalysis).forEach(newsId => {
+              const cacheKey = `${archiveId}_${newsId}`;
+              updatedCache[cacheKey] = archiveAnalysis[newsId];
+            });
+            return updatedCache;
           });
-          setAnalysisCache(archiveAnalysisCache);
         } else {
           throw new Error(result.message || 'Failed to fetch archive');
         }
@@ -277,10 +296,7 @@ export default function Home() {
           setNewsData(result.data);
           setLastUpdated(result.lastUpdated || '');
           
-          // Clear analysis cache when news updates
-          setAnalysisCache({});
-          
-          // Start background pre-fetching of analyses
+          // Start background pre-fetching of analyses (keep existing cache)
           preFetchAnalyses(result.data);
         } else {
           throw new Error(result.message || 'Failed to fetch news');
