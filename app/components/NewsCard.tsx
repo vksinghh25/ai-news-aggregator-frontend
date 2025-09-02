@@ -68,8 +68,8 @@ export default function NewsCard({ news, onNewsClick, index }: NewsCardProps) {
       
       {/* Content */}
       <div className="p-6 flex-1 flex flex-col">
-        <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed overflow-hidden" style={{ display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' }}>
-          {news.snippet}
+        <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed overflow-hidden h-[4.2rem]" style={{ display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' }}>
+          {news.detailedSnippet}
         </p>
         
         {/* Why It Matters - Right after content */}
