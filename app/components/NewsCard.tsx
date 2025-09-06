@@ -19,14 +19,14 @@ export default function NewsCard({ news, onNewsClick, index }: NewsCardProps) {
 
   
   const tagColors = {
-    'LLM/Models': 'bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300 border-blue-300 dark:border-blue-700',
-    'Tech/Infrastructure': 'bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300 border-green-300 dark:border-green-700',
-    'Research/Innovation': 'bg-purple-100 dark:bg-purple-900/50 text-purple-800 dark:text-purple-300 border-purple-300 dark:border-purple-700',
-    'Business/Industry': 'bg-orange-100 dark:bg-orange-900/50 text-orange-800 dark:text-orange-300 border-orange-300 dark:border-orange-700',
-    'Policy/Regulation': 'bg-red-100 dark:bg-red-900/50 text-red-800 dark:text-red-300 border-red-300 dark:border-red-700',
-    'Security/Privacy': 'bg-pink-100 dark:bg-pink-900/50 text-pink-800 dark:text-pink-300 border-pink-300 dark:border-pink-700',
-    'Applications': 'bg-indigo-100 dark:bg-indigo-900/50 text-indigo-800 dark:text-indigo-300 border-indigo-300 dark:border-indigo-700',
-    'Performance': 'bg-cyan-100 dark:bg-cyan-900/50 text-cyan-800 dark:text-cyan-300 border-cyan-300 dark:border-cyan-700'
+    'LLM/Models': 'bg-blue-500/15 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 border-blue-500/30 dark:border-blue-700',
+    'Tech/Infrastructure': 'bg-emerald-500/15 dark:bg-green-900/50 text-emerald-700 dark:text-green-300 border-emerald-500/30 dark:border-green-700',
+    'Research/Innovation': 'bg-purple-500/15 dark:bg-purple-900/50 text-purple-700 dark:text-purple-300 border-purple-500/30 dark:border-purple-700',
+    'Business/Industry': 'bg-amber-500/15 dark:bg-orange-900/50 text-amber-700 dark:text-orange-300 border-amber-500/30 dark:border-orange-700',
+    'Policy/Regulation': 'bg-red-500/15 dark:bg-red-900/50 text-red-700 dark:text-red-300 border-red-500/30 dark:border-red-700',
+    'Security/Privacy': 'bg-rose-500/15 dark:bg-pink-900/50 text-rose-700 dark:text-pink-300 border-rose-500/30 dark:border-pink-700',
+    'Applications': 'bg-indigo-500/15 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 border-indigo-500/30 dark:border-indigo-700',
+    'Performance': 'bg-teal-500/15 dark:bg-cyan-900/50 text-teal-700 dark:text-cyan-300 border-teal-500/30 dark:border-cyan-700'
   };
 
   return (

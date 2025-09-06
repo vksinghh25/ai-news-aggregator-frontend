@@ -468,8 +468,8 @@ export default function Home() {
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
-      <div className="hero-section relative overflow-hidden bg-gradient-to-br from-slate-100 via-gray-50 to-blue-50/50 dark:from-gray-800 dark:via-slate-800 dark:to-gray-900">
-        <div className="absolute inset-0 bg-blue-500/8 dark:bg-black/30"></div>
+      <div className="hero-section relative overflow-hidden bg-gradient-to-br from-slate-200 via-blue-50 to-cyan-100/80 dark:from-gray-800 dark:via-slate-800 dark:to-gray-900">
+        <div className="absolute inset-0 bg-blue-500/12 dark:bg-black/30"></div>
         <div className="relative max-w-6xl mx-auto px-8 py-8 text-center">
           <div className="mb-3">
             <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-50/90 dark:bg-white/10 backdrop-blur-sm border border-blue-100/50 dark:border-white/20 mb-2">
@@ -488,15 +488,15 @@ export default function Home() {
         </div>
         
         {/* Decorative elements */}
-        <div className="absolute top-20 left-10 w-20 h-20 bg-blue-400/30 dark:bg-blue-500/20 rounded-full blur-xl"></div>
-        <div className="absolute bottom-20 right-10 w-32 h-32 bg-cyan-400/30 dark:bg-cyan-500/20 rounded-full blur-xl"></div>
+        <div className="absolute top-20 left-10 w-20 h-20 bg-blue-400/40 dark:bg-blue-500/20 rounded-full blur-xl"></div>
+        <div className="absolute bottom-20 right-10 w-32 h-32 bg-cyan-400/40 dark:bg-cyan-500/20 rounded-full blur-xl"></div>
       </div>
 
       {/* Gap between header and news - matches news background */}
       <div className="news-gap h-8"></div>
 
       {/* News Grid Section */}
-      <div className="bg-white/40 dark:bg-gray-900/40 min-h-screen">
+      <div className="bg-slate-50/80 dark:bg-gray-900/40 min-h-screen">
         {/* Navigation Buttons */}
         {/* Hamburger Toggle Button */}
         <button 
