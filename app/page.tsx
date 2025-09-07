@@ -73,6 +73,9 @@ export default function Home() {
   const [hideNavToggle, setHideNavToggle] = useState(false);
   const [analysisCache, setAnalysisCache] = useState<Record<string, any>>({});
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [subscribeEmail, setSubscribeEmail] = useState<string>('');
+  const [subscribeStatus, setSubscribeStatus] = useState<'idle' | 'loading' | 'success' | 'error' | 'duplicate'>('idle');
+  const [subscribeMessage, setSubscribeMessage] = useState<string>('');
 
   const handleTagClick = (tag: string) => {
     setSelectedTags(prev => 
@@ -80,6 +83,66 @@ export default function Home() {
         ? prev.filter(t => t !== tag) // Remove if already selected
         : [...prev, tag] // Add if not selected
     );
+  };
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    const trimmedEmail = subscribeEmail.trim();
+    
+    if (!trimmedEmail) {
+      setSubscribeStatus('error');
+      setSubscribeMessage('Please enter an email address');
+      return;
+    }
+
+    // Basic email validation on frontend
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(trimmedEmail) || trimmedEmail.length > 254) {
+      setSubscribeStatus('error');
+      setSubscribeMessage('Please enter a valid email address');
+      return;
+    }
+
+    setSubscribeStatus('loading');
+    setSubscribeMessage('');
+
+    try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+      const response = await fetch(`${apiUrl}/api/subscribe`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: trimmedEmail }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setSubscribeStatus('success');
+        setSubscribeMessage('Successfully subscribed! 🎉');
+        setSubscribeEmail('');
+      } else {
+        if (response.status === 409) {
+          setSubscribeStatus('duplicate');
+          setSubscribeMessage('You\'re already subscribed! 📧');
+        } else {
+          setSubscribeStatus('error');
+          setSubscribeMessage(result.message || 'Failed to subscribe');
+        }
+      }
+    } catch (error) {
+      setSubscribeStatus('error');
+      setSubscribeMessage('Network error. Please try again.');
+      console.error('Subscribe error:', error);
+    }
+
+    // Reset status after 5 seconds
+    setTimeout(() => {
+      setSubscribeStatus('idle');
+      setSubscribeMessage('');
+    }, 5000);
   };
 
   const handleNewsClick = async (news: NewsItem) => {
@@ -337,28 +400,28 @@ export default function Home() {
   if (loading) {
     return (
       <main className="min-h-screen">
-        <div className="relative overflow-hidden bg-gradient-to-br from-gray-800 via-slate-800 to-gray-900">
-          <div className="absolute inset-0 bg-black/20"></div>
+        <div className="relative overflow-hidden bg-gradient-to-br from-slate-200 via-blue-50 to-cyan-100/80 dark:from-gray-800 dark:via-slate-800 dark:to-gray-900">
+          <div className="absolute inset-0 bg-blue-500/12 dark:bg-black/30"></div>
           <div className="relative max-w-6xl mx-auto px-8 py-16 text-center">
             <div className="mb-3">
-              <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-2">
-                <span className="text-white/90 text-sm font-medium">🤖 AI-Powered News Analysis ✨</span>
+              <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-50/90 dark:bg-white/10 backdrop-blur-sm border border-blue-100/50 dark:border-white/20 mb-2">
+                <span className="text-blue-800 dark:text-white/90 text-sm font-medium">🤖 AI-Powered News Analysis ✨</span>
               </div>
-              <h1 className="text-5xl md:text-6xl font-bold text-white mb-8 leading-relaxed">
+              <h1 className="text-5xl md:text-6xl font-bold text-slate-800 dark:text-white mb-8 leading-relaxed">
                 AI News
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400 pb-4">
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-blue-400 dark:to-cyan-400 pb-4">
                   Digest
                 </span>
               </h1>
-              <p className="text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto leading-relaxed">
-                Cut through the AI noise. Get the stories that actually matter, <span className="text-blue-400 font-semibold">curated and analyzed by AI</span> 🚀
+              <p className="text-xl md:text-2xl text-slate-600 dark:text-gray-200 max-w-3xl mx-auto leading-relaxed">
+                Cut through the AI noise. Get the stories that actually matter, <span className="text-blue-600 dark:text-blue-400 font-semibold">curated and analyzed by AI</span> 🚀
               </p>
             </div>
           </div>
           
           {/* Decorative elements */}
-          <div className="absolute top-20 left-10 w-20 h-20 bg-blue-500/20 rounded-full blur-xl"></div>
-          <div className="absolute bottom-20 right-10 w-32 h-32 bg-cyan-500/20 rounded-full blur-xl"></div>
+          <div className="absolute top-20 left-10 w-20 h-20 bg-blue-400/40 dark:bg-blue-500/20 rounded-full blur-xl"></div>
+          <div className="absolute bottom-20 right-10 w-32 h-32 bg-cyan-400/40 dark:bg-cyan-500/20 rounded-full blur-xl"></div>
         </div>
 
         {/* Loading State */}
@@ -496,7 +559,7 @@ export default function Home() {
       <div className="news-gap h-8"></div>
 
       {/* News Grid Section */}
-      <div className="bg-slate-50/80 dark:bg-gray-900/40 min-h-screen">
+      <div className="bg-slate-50/80 dark:bg-gray-900/40">
         {/* Navigation Buttons */}
         {/* Hamburger Toggle Button */}
         <button 
@@ -619,6 +682,55 @@ export default function Home() {
               </div>
             </>
           )}
+          
+          {/* Newsletter Subscription Box */}
+          <div className="w-full max-w-lg mx-auto px-4 md:px-6 lg:px-8 pb-8">
+            <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-300 dark:border-gray-700 p-6">
+              <div className="text-center">
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                  📧 Stay Updated
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                  Get the latest AI news delivered to your inbox
+                </p>
+                
+                <form onSubmit={handleSubscribe} className="max-w-md mx-auto">
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <input
+                      type="email"
+                      placeholder="Enter your email"
+                      value={subscribeEmail}
+                      onChange={(e) => setSubscribeEmail(e.target.value)}
+                      disabled={subscribeStatus === 'loading'}
+                      className="flex-1 px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+                    />
+                    <button 
+                      type="submit"
+                      disabled={subscribeStatus === 'loading'}
+                      className="px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white text-sm font-medium rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-lg hover:shadow-xl sm:flex-shrink-0 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center min-w-[90px]"
+                    >
+                      {subscribeStatus === 'loading' ? (
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                      ) : (
+                        'Subscribe'
+                      )}
+                    </button>
+                  </div>
+                  
+                  {/* Status Message */}
+                  {subscribeMessage && (
+                    <div className={`mt-3 text-sm text-center ${
+                      subscribeStatus === 'success' ? 'text-green-600 dark:text-green-400' :
+                      subscribeStatus === 'duplicate' ? 'text-blue-600 dark:text-blue-400' :
+                      'text-red-600 dark:text-red-400'
+                    }`}>
+                      {subscribeMessage}
+                    </div>
+                  )}
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 

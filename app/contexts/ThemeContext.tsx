@@ -12,7 +12,14 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('dark');
+  const [theme, setTheme] = useState<Theme>(() => {
+    // Initialize with a default value that will be updated immediately
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem('theme') as Theme;
+      return savedTheme || 'dark';
+    }
+    return 'dark';
+  });
   const [mounted, setMounted] = useState(false);
 
   // Set mounted to true after component mounts to avoid hydration mismatch
@@ -50,7 +57,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   // Don't render until mounted to prevent hydration mismatch
   if (!mounted) {
-    return <div className="min-h-screen bg-gray-900">{children}</div>;
+    return <div className="min-h-screen">{children}</div>;
   }
 
   return (
