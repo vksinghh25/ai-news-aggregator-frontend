@@ -634,11 +634,11 @@ export default function Home() {
             <>
               {/* Tags Filter Section */}
               <div className="max-w-6xl mx-auto mb-8 px-4">
-                <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide">
-                  <span className="text-sm font-semibold text-gray-600 dark:text-gray-400 whitespace-nowrap flex-shrink-0">
+                <div className="flex flex-col items-center gap-3">
+                  <span className="text-sm font-semibold text-gray-600 dark:text-gray-400">
                     Filter by:
                   </span>
-                  <div className="flex items-center gap-2 flex-nowrap">
+                  <div className="flex items-center justify-center gap-2 flex-wrap">
                     {/* Extract all unique tags from current news data */}
                     {Array.from(new Set(newsData.flatMap(news => news.tags || []))).map((tag) => {
                       const isSelected = selectedTags.includes(tag);
@@ -646,7 +646,7 @@ export default function Home() {
                         <span
                           key={tag}
                           onClick={() => handleTagClick(tag)}
-                          className={`px-2 py-0.5 text-xs font-medium rounded-full border cursor-pointer transition-colors duration-200 whitespace-nowrap flex-shrink-0 ${
+                          className={`px-2 py-0.5 text-xs font-medium rounded-full border cursor-pointer transition-colors duration-200 whitespace-nowrap ${
                             isSelected 
                               ? 'bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300 border-blue-300 dark:border-blue-700' 
                               : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-blue-100 dark:hover:bg-blue-900/50 hover:text-blue-800 dark:hover:text-blue-300 hover:border-blue-300 dark:hover:border-blue-700'
